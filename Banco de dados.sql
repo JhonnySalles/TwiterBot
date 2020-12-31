@@ -36,6 +36,24 @@ CREATE TABLE `anime` (
 
 /*Data for the table `anime` */
 
+/*Table structure for table `configuracao` */
+
+DROP TABLE IF EXISTS `configuracao`;
+
+CREATE TABLE `configuracao` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo` varchar(250) DEFAULT NULL,
+  `PostDiario` int(11) DEFAULT '0',
+  `PostTotal` int(11) DEFAULT '0',
+  `UltimoPost` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+/*Data for the table `configuracao` */
+
+insert  into `configuracao`(`id`,`tipo`,`PostDiario`,`PostTotal`,`UltimoPost`) values 
+(1,'TWITTER',10,15,'2020-12-31 18:35:52');
+
 /*Table structure for table `musica` */
 
 DROP TABLE IF EXISTS `musica`;
@@ -88,7 +106,7 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (8,'あした','Amanhã','明日は明日の風が吹く','Amanhã será outro dia.','吹 Soprar, emitir, assoprar.',5,5,'Verificar',0,1),
 (9,'あたたかい','Quente.','部屋は暖かかった。','A sala estava quente.','',5,5,'',0,1),
 (10,'頭','Cabeça.','頭が重い。','Estou com a cabeça pesada.','',5,5,'',0,1),
-(11,'ぶんめい','Civilização, cultura.','われわれは文明社会に生きている','Nós vivemos em uma sociedade civilizada.','社会sociedade',5,5,'Verificar',0,1),
+(11,'ぶんめい','Civilização, cultura.','われわれは文明社会に生きている','Nós vivemos em uma sociedade civilizada.','社会sociedade',5,5,'Verificar',1,1),
 (12,'せけん','Mundo.','彼は世間をあっといわせた。','Ele surpreendeu o público.','世-Publico, mundo, sociedade.間-Intervalo, caractere spaço, espaço extra-atmosférico.',5,5,'Verificar',0,1),
 (13,'固い / かたい','Firme, duro, dificil, rigido.','鉄は固い','O ferro é duro.','',5,5,'',0,1),
 (14,'固い / かたい','Firme, duro, dificil, rigido.','テニスのラケットを固く握った。','Ele segurou firme a raquete de tênis.','',5,5,'',0,1),
@@ -108,10 +126,10 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (29,'洗う','Lavar-se.','食器を洗いなさい。','Vamos lavar a louça.','',5,5,'',0,1),
 (30,'歩く','Andar, caminhar.','歩いてきました。','Eu vim a pé.','',5,5,'',0,1),
 (31,'歩く','Andar, caminhar.','歩いてすぐですよ。','É uma caminhada curta.','',5,5,'',0,1),
-(32,'歩く','Andar, caminhar.','この辺を歩くなら銃を持って歩け。','Você precisa carregar uma arma nesta área.','',5,5,'',0,1),
+(32,'歩く','Andar, caminhar.','この辺を歩くなら銃を持って歩け。','Você precisa carregar uma arma nesta área.','',5,5,'',1,1),
 (33,'いくつ','Quantos? Quantos anos?','いくら','Quanto custa?','',5,5,'',0,1),
 (34,'池','Lagoa, tanques, reservatório.','池の直径はどのくらいですか？','Qual o diâmetro do lago?','',5,5,'',0,1),
-(35,'池','Lagoa, tanques, reservatório.','池には魚がたくさんいる。','Há muitos peixes na lagoa.','',5,5,'',0,1),
+(35,'池','Lagoa, tanques, reservatório.','池には魚がたくさんいる。','Há muitos peixes na lagoa.','',5,5,'',1,1),
 (36,'医者','Médico, doutor.','私は医者です。','Eu sou um médico.','',5,5,'',0,1),
 (37,'医者','Médico, doutor.','彼女は医者になるでしょう。','Ela vai se tornar médica.','',5,5,'',0,1),
 (38,'医者','Médico, doutor.','医者は何だって？','O que disse o médico?','',5,5,'',0,1),
@@ -134,7 +152,7 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (55,'入口','Portão, entrada.','ここは入口ではありません。','Aqui não é a entrada.','',5,5,'',0,1),
 (56,'居る / いる','1) Ser, ter (Usado para pessoas e animais)2) Existir, permanecer.','私しか居ないのか？','Sou a única pessoa aqui?','',5,5,'',0,1),
 (57,'居る / いる','1) Ser, ter (Usado para pessoas e animais)2) Existir, permanecer.','幽霊は本当にいるのだろうか','Fantasmas existem de verdade?','',5,5,'',0,1),
-(58,'要る','Necessitar, requerer, precisar.','地図が要ります。','Preciso de um mapa.','',5,5,'',0,1),
+(58,'要る','Necessitar, requerer, precisar.','地図が要ります。','Preciso de um mapa.','',5,5,'',1,1),
 (59,'要る','Necessitar, requerer, precisar.','説明は要りません。','Eu não preciso de uma explicação.','',5,5,'',0,1),
 (60,'後ろ','Reverso, parte traseira, costas.','彼の後ろにいる。','Está atrás dele.','',5,5,'',0,1),
 (61,'後ろ','Reverso, parte traseira, costas.','彼はドアの後ろに立っていました。','Estava parado atrás da porta.','',5,5,'',0,1),
@@ -146,7 +164,7 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (67,'生まれる','Nascer, provir.','私は京都で生まれた。','Eu nasci em quioto.','',5,5,'',0,1),
 (68,'海','Mar, oceano','その海は青い。','Esse mar é azul.','',5,5,'',0,1),
 (69,'海','Mar, oceano','海が静かになった。','O oceano está baixo.','',5,5,'',0,1),
-(70,'海','Mar, oceano','海が静かだった。','O oceano está calmo.','',5,5,'',0,1),
+(70,'海','Mar, oceano','海が静かだった。','O oceano está calmo.','',5,5,'',1,1),
 (71,'売る','Vender.','この本はここでは売られていません','Este livro não se vende aqui.','',5,5,'',0,1),
 (72,'売る','Vender.','彼の家は売りに出されている。','Sua casa esta a venda.','',5,5,'',0,1),
 (73,'上着','Jaqueta, paletó, sobretudo.','彼は上着を掛けた','Ele pendurou seu casaco.','',5,5,'',0,1),
@@ -154,7 +172,7 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (75,'絵','Imagem, pintura.','その絵は素晴らしかったです','A figura estava maravilhosa.','',5,5,'',0,1),
 (76,'絵','Imagem, pintura.','彼が絵が好きだからといって絵がうまいということにはならない。','Gostar de pintar não implica que ele saiba pintar.','',5,5,'',0,1),
 (77,'映画','Filmes, cinema, película.','コメディものの映画です','É um filme de comédia.','',5,5,'',0,1),
-(78,'映画','Filmes, cinema, película.','いつその映画を見たのですか。','Quando você viu esse filme?','',5,5,'',0,1),
+(78,'映画','Filmes, cinema, película.','いつその映画を見たのですか。','Quando você viu esse filme?','',5,5,'',1,1),
 (79,'映画館','Sala de cinema, salas de cinema.','映画館にいたんだ。','Eu estava no cinema.','',5,5,'',0,1),
 (80,'映画館','Sala de cinema, salas de cinema.','この市には多くの映画館がある。','Tem vários cinemas nesta cidade.','',5,5,'',0,1),
 (81,'駅','Estação','駅はどこですか','Onde é a estação?','',5,5,'',0,1),
@@ -167,12 +185,12 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (88,'多い','Numeroso, um monte, muito.','インドは人口が多い。','A índia é populosa.','',5,5,'',0,1),
 (89,'大勢','Um grande número de pessoas.','そこには大勢の人がいた。','Há um gigantesco número de pessoas lá.','',5,5,'',0,1),
 (90,'大勢','Um grande número de pessoas.','コンサートには大勢の聴衆がいた。','Havia uma grande audiência no concerto.','聴衆 Audiencia.',5,5,'Verificar',0,1),
-(91,'お菓子','Doces, bolo.','いろいろなお菓子があった。','Havia vários tipos de doces.','',5,5,'',0,1),
+(91,'お菓子','Doces, bolo.','いろいろなお菓子があった。','Havia vários tipos de doces.','',5,5,'',1,1),
 (92,'お菓子','Doces, bolo.','お母さんだけがこのお菓子をつくれます。','A mamãe pode fazer este bolo sozinha.','',5,5,'',0,1),
 (93,'起きる','Originar-se, levantar-se, suceder, ocorrer.','何も起きなかった。','Não aconteceu nada.','',5,5,'',0,1),
 (94,'起きる','Originar-se, levantar-se, suceder, ocorrer.','問題でも起きたのか。','Há algo errado?','',5,5,'',0,1),
 (95,'起きる','Originar-se, levantar-se, suceder, ocorrer.','何が起きたのか知しりません。','Não sei o que aconteceu.','',5,5,'',0,1),
-(96,'置く','Botar, colocar.','ここに置いていいですか','Posso colocar aqui?','',5,5,'',0,1),
+(96,'置く','Botar, colocar.','ここに置いていいですか','Posso colocar aqui?','',5,5,'',1,1),
 (97,'置く','Botar, colocar.','彼は銃を下に置いた。','Ele abaixou a arma.','',5,5,'',0,1),
 (98,'おくさん','Esposa.','おくさんがカンカンだぞ。','Sua esposa está brava com você.','',5,5,'',0,1),
 (99,'おくさん','Esposa.','奥さんによろしく伝えて下さい。','Porfavor, dê um alô à sua mulher.','',5,5,'',0,1),

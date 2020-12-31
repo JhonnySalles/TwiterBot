@@ -13,8 +13,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.controlsfx.control.PopOver;
 import org.controlsfx.control.PopOver.ArrowLocation;
+import org.twitter.TwitterBot.model.entities.Configuracao;
 import org.twitter.TwitterBot.model.entities.Vocabulario;
 import org.twitter.TwitterBot.model.exceptions.ExcessaoBd;
+import org.twitter.TwitterBot.model.services.ConfiguracaoServices;
 import org.twitter.TwitterBot.model.services.VocabularioServices;
 import org.twitter.TwitterBot.util.Processar;
 import org.twitter.TwitterBot.util.mysql.ConexaoMysql;
@@ -93,6 +95,8 @@ public class DashboardController implements Initializable {
 
 	private List<Vocabulario> frasesVocabulario = new ArrayList<>();
 	private VocabularioServices serviceVocabulario = new VocabularioServices();
+	private ConfiguracaoServices serviceConfiguracao = new ConfiguracaoServices();
+	private Configuracao configuracao;
 
 	private PopOver pop;
 	private static Thread POSTAGEM;
@@ -166,6 +170,13 @@ public class DashboardController implements Initializable {
 			setLog("Consultando frases.");
 			frasesVocabulario = serviceVocabulario.selectPost();
 
+			if (configuracao == null) {
+				configuracao = serviceConfiguracao.select();
+
+				if (configuracao.getUltimoPost().getDayOfMonth() != LocalDateTime.now().getDayOfMonth())
+					configuracao.setPostDiario((long) 0);
+			}
+
 			if (frasesVocabulario != null && !frasesVocabulario.isEmpty())
 				postarVocabulario();
 			else
@@ -193,7 +204,10 @@ public class DashboardController implements Initializable {
 		Random rand = new Random();
 		Vocabulario postar = frasesVocabulario.get(rand.nextInt(frasesVocabulario.size()));
 
-		if ((postar.getVocabulario() + "\n\n" + postar.getFrase()).length() > 250) {
+		String frase = postar.getVocabulario() + " - " + postar.getSignificado() + "\n\n" + postar.getFrase()
+				+ "\n\n#Vocabulary #JLPT #JLPTN" + postar.getJlpt();
+
+		if (frase.length() > 250) {
 			postar.setObservacao("Tamanho da frase incompatível, maior que 250 caracteres.");
 
 			try {
@@ -215,7 +229,7 @@ public class DashboardController implements Initializable {
 
 		try {
 			User user = twitter.verifyCredentials();
-			setLog("Conectado ao twitter no usuario:" + user.getName());
+			setLog("Conectado ao twitter no usuario: " + user.getName());
 		} catch (TwitterException e1) {
 			setLog("Erro na verificação das credenciais. \n" + e1.getMessage());
 			e1.printStackTrace();
@@ -224,20 +238,26 @@ public class DashboardController implements Initializable {
 		}
 
 		try {
-			setLog("Postando a frase:" + postar.toString());
-			Status post = twitter.updateStatus(postar.getVocabulario() + "\n\n" + postar.getFrase()
-					+ "\n\n#Vocabulary #JLPT #JLPTN" + postar.getJlpt());
+			setLog("Postando a frase: " + postar.toString());
+			Status post = twitter.updateStatus(frase);
+			configuracao.incrementa();
 
-			StatusUpdate comentaKanji = new StatusUpdate(postar.getKanji());
-			comentaKanji.inReplyToStatusId(post.getId());
-			twitter.updateStatus(comentaKanji);
+			if (!postar.getKanji().isEmpty()) {
+				StatusUpdate comentaKanji = new StatusUpdate(postar.getKanji());
+				comentaKanji.inReplyToStatusId(post.getId());
+				twitter.updateStatus(comentaKanji);
+				configuracao.incrementa();
+			}
 
 			StatusUpdate comentaTraducao = new StatusUpdate(postar.getTraducao());
 			comentaTraducao.inReplyToStatusId(post.getId());
 			twitter.updateStatus(comentaTraducao);
+			configuracao.incrementa();
+			configuracao.setUltimoPost(LocalDateTime.now());
 
 			postar.setPostado(postar.getPostado() + 1);
 			serviceVocabulario.update(postar);
+			serviceConfiguracao.update(configuracao);
 			setLog("Postagem concluida.");
 		} catch (TwitterException e) {
 			setLog("Erro ao postar a menssagem. \n" + e.getMessage());
@@ -276,7 +296,7 @@ public class DashboardController implements Initializable {
 
 		try {
 			User user = twitter.verifyCredentials();
-			setLog("Conectado ao twitter no usuario:" + user.getName());
+			setLog("Conectado ao twitter no usuario: " + user.getName());
 		} catch (TwitterException e1) {
 			setLog("Erro na verificação das credenciais. \n" + e1.getMessage());
 			e1.printStackTrace();
@@ -285,7 +305,7 @@ public class DashboardController implements Initializable {
 		}
 
 		try {
-			setLog("Postando a frase:" + postar.toString());
+			setLog("Postando a frase: " + postar.toString());
 
 			File file = new File("/images/Done.jpg");
 
@@ -337,28 +357,29 @@ public class DashboardController implements Initializable {
 		setLog("Verificando a conexão com o banco de dados....");
 	}
 
-	static Integer tempo = 1;
-
+	static Integer TEMPO = 1;
 	private void configuraThread() {
 		Task<Void> realizarPostagem = new Task<Void>() {
 			@Override
 			public Void call() throws IOException, InterruptedException {
 
 				while (true) {
+					Platform.runLater(() -> setLog("Iniciando a postagem automática."));
 
+					Random rand = new Random();
+					TEMPO = rand.nextInt(60);
+					CONTADOR = 0;
+							
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							setLog("Iniciando a postagem automática.");
 							getDados();
-							Random rand = new Random();
-							tempo = rand.nextInt(60);
-							setLog("Aguardando " + tempo + " minutos para próxima postagem.");
-							PROXIMA_POSTAGEM = LocalDateTime.now().plusMinutes(tempo);
+							setLog("Aguardando " + TEMPO + " minutos para próxima postagem.");
+							PROXIMA_POSTAGEM = LocalDateTime.now().plusMinutes(TEMPO);
 						}
 					});
-
-					Thread.sleep(TimeUnit.MINUTES.toMillis(tempo));
+					
+					TimeUnit.MINUTES.sleep(TEMPO);
 				}
 			}
 		};
@@ -366,6 +387,7 @@ public class DashboardController implements Initializable {
 		POSTAGEM = new Thread(realizarPostagem);
 	}
 
+	static Integer CONTADOR = 0;
 	private void configuraTimer() {
 		TIMER = new Task<Void>() {
 			@Override
@@ -384,9 +406,10 @@ public class DashboardController implements Initializable {
 							minutos = 0;
 							segundos = 0;
 						}
-
-						updateProgress(1, segundos);
 						segundos = segundos - (minutos * 60);
+						
+						CONTADOR++;
+						updateProgress(CONTADOR, TEMPO * 60);						
 						updateMessage("Aguardando...: 00:" + String.format("%02d", minutos) + ":"
 								+ String.format("%02d", segundos));
 					}

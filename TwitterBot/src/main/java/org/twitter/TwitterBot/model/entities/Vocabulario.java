@@ -4,6 +4,7 @@ public class Vocabulario {
 
 	private Long id;
 	private String vocabulario;
+	private String significado;
 	private String frase;
 	private String traducao;
 	private String kanji;
@@ -27,6 +28,14 @@ public class Vocabulario {
 
 	public void setVocabulario(String vocabulario) {
 		this.vocabulario = vocabulario;
+	}
+
+	public String getSignificado() {
+		return significado;
+	}
+
+	public void setSignificado(String significado) {
+		this.significado = significado;
 	}
 
 	public String getFrase() {
@@ -95,14 +104,15 @@ public class Vocabulario {
 
 	@Override
 	public String toString() {
-		return "Vocabulario [id=" + id + ", vocabulario=" + vocabulario + ", frase=" + frase + ", traducao=" + traducao
-				+ ", kanji=" + kanji + ", nivel=" + nivel + ", jlpt=" + jlpt + ", observacao=" + observacao
-				+ ", postado=" + postado + ", ativo=" + ativo + "]";
+		return "Vocabulario [id=" + id + ", vocabulario=" + vocabulario + ", significado=" + significado + ", frase="
+				+ frase + ", traducao=" + traducao + ", kanji=" + kanji + ", nivel=" + nivel + ", jlpt=" + jlpt
+				+ ", observacao=" + observacao + ", postado=" + postado + ", ativo=" + ativo + "]";
 	}
 
 	public Vocabulario() {
 		this.id = (long) 0;
 		this.vocabulario = "";
+		this.significado = "";
 		this.frase = "";
 		this.traducao = "";
 		this.kanji = "";
@@ -113,10 +123,11 @@ public class Vocabulario {
 		this.ativo = true;
 	}
 
-	public Vocabulario(Long id, String vocabulario, String frase, String traducao, String kanji, Integer nivel,
-			Integer jlpt, String observacao, Integer postado, Boolean ativo) {
+	public Vocabulario(Long id, String vocabulario, String significado, String frase, String traducao, String kanji,
+			Integer nivel, Integer jlpt, String observacao, Integer postado, Boolean ativo) {
 		this.id = id;
 		this.vocabulario = vocabulario;
+		this.significado = significado;
 		this.frase = frase;
 		this.traducao = traducao;
 		this.kanji = kanji;

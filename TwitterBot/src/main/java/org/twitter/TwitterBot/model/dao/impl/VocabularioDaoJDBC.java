@@ -18,12 +18,12 @@ public class VocabularioDaoJDBC implements VocabularioDao {
 
 	private Connection conn;
 
-	final private String INSERT = "INSERT IGNORE INTO vocabulario (vocabulario, frase, traducao, kanjis, nivel, jlpt, observacao, postado, ativo) VALUES (?,?,?,?,?,?,?,?,?);";
-	final private String UPDATE = "UPDATE vocabulario SET vocabulario = ?, frase = ?, traducao = ?, kanjis = ?, nivel = ?, jlpt = ?, observacao = ?, postado = ?, ativo = ? WHERE id = ?;";
+	final private String INSERT = "INSERT IGNORE INTO vocabulario (vocabulario, significado, frase, traducao, kanjis, nivel, jlpt, observacao, postado, ativo) VALUES (?,?,?,?,?,?,?,?,?,?);";
+	final private String UPDATE = "UPDATE vocabulario SET vocabulario = ?, significado = ?, frase = ?, traducao = ?, kanjis = ?, nivel = ?, jlpt = ?, observacao = ?, postado = ?, ativo = ? WHERE id = ?;";
 	final private String DELETE = "DELETE FROM vocabulario WHERE id = ?;";
-	final private String SELECT = "SELECT id, vocabulario, frase, traducao, kanjis, nivel, jlpt, observacao, postado, ativo FROM vocabulario WHERE id = ? ;";
-	final private String SELECT_ALL = "SELECT id, vocabulario, frase, traducao, kanjis, nivel, jlpt, observacao, postado, ativo FROM vocabulario";
-	final private String SELECT_POST = "SELECT id, vocabulario, frase, traducao, kanjis, nivel, jlpt, observacao, postado, ativo FROM vocabulario "
+	final private String SELECT = "SELECT id, vocabulario, significado, frase, traducao, kanjis, nivel, jlpt, observacao, postado, ativo FROM vocabulario WHERE id = ? ;";
+	final private String SELECT_ALL = "SELECT id, vocabulario, significado, frase, traducao, kanjis, nivel, jlpt, observacao, postado, ativo FROM vocabulario";
+	final private String SELECT_POST = "SELECT id, vocabulario, significado, frase, traducao, kanjis, nivel, jlpt, observacao, postado, ativo FROM vocabulario "
 			+ " WHERE Postado = (SELECT MIN(postado) FROM vocabulario) LIMIT 100;";
 
 	public VocabularioDaoJDBC(Connection conn) {
@@ -37,14 +37,15 @@ public class VocabularioDaoJDBC implements VocabularioDao {
 			st = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, obj.getVocabulario());
-			st.setString(2, obj.getFrase());
-			st.setString(3, obj.getTraducao());
-			st.setString(4, obj.getKanji());
-			st.setInt(5, obj.getNivel());
-			st.setInt(6, obj.getJlpt());
-			st.setString(7, obj.getObservacao());
-			st.setInt(8, obj.getPostado());
-			st.setBoolean(9, obj.getAtivo());
+			st.setString(2, obj.getSignificado());
+			st.setString(3, obj.getFrase());
+			st.setString(4, obj.getTraducao());
+			st.setString(5, obj.getKanji());
+			st.setInt(6, obj.getNivel());
+			st.setInt(7, obj.getJlpt());
+			st.setString(8, obj.getObservacao());
+			st.setInt(9, obj.getPostado());
+			st.setBoolean(10, obj.getAtivo());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -68,15 +69,16 @@ public class VocabularioDaoJDBC implements VocabularioDao {
 			st = conn.prepareStatement(UPDATE, Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, obj.getVocabulario());
-			st.setString(2, obj.getFrase());
-			st.setString(3, obj.getTraducao());
-			st.setString(4, obj.getKanji());
-			st.setInt(5, obj.getNivel());
-			st.setInt(6, obj.getJlpt());
-			st.setString(7, obj.getObservacao());
-			st.setInt(8, obj.getPostado());
-			st.setBoolean(9, obj.getAtivo());
-			st.setLong(10, obj.getId());
+			st.setString(2, obj.getSignificado());
+			st.setString(3, obj.getFrase());
+			st.setString(4, obj.getTraducao());
+			st.setString(5, obj.getKanji());
+			st.setInt(6, obj.getNivel());
+			st.setInt(7, obj.getJlpt());
+			st.setString(8, obj.getObservacao());
+			st.setInt(9, obj.getPostado());
+			st.setBoolean(10, obj.getAtivo());
+			st.setLong(11, obj.getId());
 
 			int rowsAffected = st.executeUpdate();
 
@@ -127,9 +129,9 @@ public class VocabularioDaoJDBC implements VocabularioDao {
 			rs = st.executeQuery();
 
 			if (rs.next()) {
-				return new Vocabulario(rs.getLong("id"), rs.getString("vocabulario"), rs.getString("frase"),
-						rs.getString("traducao"), rs.getString("kanjis"), rs.getInt("nivel"), rs.getInt("jlpt"),
-						rs.getString("observacao"), rs.getInt("postado"), rs.getBoolean("ativo"));
+				return new Vocabulario(rs.getLong("id"), rs.getString("vocabulario"), rs.getString("significado"),
+						rs.getString("frase"), rs.getString("traducao"), rs.getString("kanjis"), rs.getInt("nivel"),
+						rs.getInt("jlpt"), rs.getString("observacao"), rs.getInt("postado"), rs.getBoolean("ativo"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -153,9 +155,9 @@ public class VocabularioDaoJDBC implements VocabularioDao {
 			List<Vocabulario> list = new ArrayList<>();
 
 			while (rs.next()) {
-				list.add(new Vocabulario(rs.getLong("id"), rs.getString("vocabulario"), rs.getString("frase"),
-						rs.getString("traducao"), rs.getString("kanjis"), rs.getInt("nivel"), rs.getInt("jlpt"),
-						rs.getString("observacao"), rs.getInt("postado"), rs.getBoolean("ativo")));
+				list.add(new Vocabulario(rs.getLong("id"), rs.getString("vocabulario"), rs.getString("significado"),
+						rs.getString("frase"), rs.getString("traducao"), rs.getString("kanjis"), rs.getInt("nivel"),
+						rs.getInt("jlpt"), rs.getString("observacao"), rs.getInt("postado"), rs.getBoolean("ativo")));
 			}
 			return list;
 		} catch (SQLException e) {
@@ -178,9 +180,9 @@ public class VocabularioDaoJDBC implements VocabularioDao {
 			List<Vocabulario> list = new ArrayList<>();
 
 			while (rs.next()) {
-				list.add(new Vocabulario(rs.getLong("id"), rs.getString("vocabulario"), rs.getString("frase"),
-						rs.getString("traducao"), rs.getString("kanjis"), rs.getInt("nivel"), rs.getInt("jlpt"),
-						rs.getString("observacao"), rs.getInt("postado"), rs.getBoolean("ativo")));
+				list.add(new Vocabulario(rs.getLong("id"), rs.getString("vocabulario"), rs.getString("significado"),
+						rs.getString("frase"), rs.getString("traducao"), rs.getString("kanjis"), rs.getInt("nivel"),
+						rs.getInt("jlpt"), rs.getString("observacao"), rs.getInt("postado"), rs.getBoolean("ativo")));
 			}
 			return list;
 		} catch (SQLException e) {

@@ -19,6 +19,18 @@ public class VocabularioServices {
 		return vocabularioDao.selectPost();
 	}
 
+	public void insertAll(List<Vocabulario> lista) throws ExcessaoBd {
+		for (Vocabulario item: lista)
+			vocabularioDao.insert(item);
+	}
+	
+	public void save(Vocabulario obj) throws ExcessaoBd {
+		if (obj.getId() == null || obj.getId().equals(Long.valueOf(0))) 
+			insert(obj);
+		else
+			update(obj);
+	}
+	
 	public void insert(Vocabulario obj) throws ExcessaoBd {
 		vocabularioDao.insert(obj);
 	}

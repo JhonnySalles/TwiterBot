@@ -16,6 +16,7 @@ import org.controlsfx.control.PopOver.ArrowLocation;
 import org.twitter.TwitterBot.model.entities.Vocabulario;
 import org.twitter.TwitterBot.model.exceptions.ExcessaoBd;
 import org.twitter.TwitterBot.model.services.VocabularioServices;
+import org.twitter.TwitterBot.util.Processar;
 import org.twitter.TwitterBot.util.mysql.ConexaoMysql;
 import org.twitter.TwitterBot.util.mysql.ConexaoTwitter;
 
@@ -44,6 +45,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Screen;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
@@ -63,6 +66,9 @@ public class DashboardController implements Initializable {
 
 	@FXML
 	private AnchorPane apGlobal;
+
+	@FXML
+	private JFXButton btnImportar;
 
 	@FXML
 	private JFXButton btnPostarAgora;
@@ -90,8 +96,25 @@ public class DashboardController implements Initializable {
 
 	private PopOver pop;
 	private static Thread POSTAGEM;
+	private static Task<Void> TIMER;
 
 	private static LocalDateTime PROXIMA_POSTAGEM = LocalDateTime.now();
+
+	@FXML
+	private void onBtnImportar() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Selecione o arquivo para importar");
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Excel Files", "*.csv"),
+				new ExtensionFilter("Text Files", "*.txt"));
+		File arquivo = fileChooser.showOpenDialog(null);
+
+		if (arquivo == null)
+			setLog("Arquivo não encontrado");
+		else {
+			Processar importar = new Processar(this);
+			importar.importaDados(arquivo);
+		}
+	}
 
 	@FXML
 	private void onBtnExecutar() {
@@ -202,7 +225,8 @@ public class DashboardController implements Initializable {
 
 		try {
 			setLog("Postando a frase:" + postar.toString());
-			Status post = twitter.updateStatus(postar.getVocabulario() + "\n\n" + postar.getFrase() + "\n\n#Vocabulary #JLPT #JLPTN" + postar.getJlpt());
+			Status post = twitter.updateStatus(postar.getVocabulario() + "\n\n" + postar.getFrase()
+					+ "\n\n#Vocabulary #JLPT #JLPTN" + postar.getJlpt());
 
 			StatusUpdate comentaKanji = new StatusUpdate(postar.getKanji());
 			comentaKanji.inReplyToStatusId(post.getId());
@@ -343,7 +367,7 @@ public class DashboardController implements Initializable {
 	}
 
 	private void configuraTimer() {
-		Task<Void> timer = new Task<Void>() {
+		TIMER = new Task<Void>() {
 			@Override
 			public Void call() throws IOException, InterruptedException {
 				while (true) {
@@ -371,10 +395,14 @@ public class DashboardController implements Initializable {
 			}
 		};
 
-		barraProgresso.progressProperty().bind(timer.progressProperty());
-		txtTempoRestante.textProperty().bind(timer.messageProperty());
-		Thread t = new Thread(timer);
+		barraProgresso.progressProperty().bind(TIMER.progressProperty());
+		txtTempoRestante.textProperty().bind(TIMER.messageProperty());
+		Thread t = new Thread(TIMER);
 		t.start();
+	}
+
+	public void cleanBind() {
+		barraProgresso.progressProperty().bind(TIMER.progressProperty());
 	}
 
 	public DashboardController mostrarConfiguracao() {
@@ -400,6 +428,10 @@ public class DashboardController implements Initializable {
 
 	public PopOver getPopPup() {
 		return pop;
+	}
+
+	public JFXTextArea getLogTextArea() {
+		return txtAreaLog;
 	}
 
 	private void criaMenuBackup() {

@@ -9,13 +9,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="apGlobal" prefHeight="500.0" prefWidth="500.0" styleClass="background-Black1" stylesheets="@../resources/css/Dark_Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.twitter.TwitterBot.controller.DashboardController">
+<AnchorPane fx:id="apGlobal" prefHeight="500.0" prefWidth="600.0" styleClass="background-Black1" stylesheets="@../resources/css/Dark_Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.twitter.TwitterBot.controller.DashboardController">
    <children>
       <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="45.0" styleClass="tituloBackground" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <JFXTextField fx:id="txtTempoRestante" editable="false" focusColor="#71afe5" labelFloat="true" prefHeight="25.0" prefWidth="228.0" promptText="Tempo restante" styleClass="texto-stilo" unFocusColor="#106ebe" HBox.hgrow="ALWAYS" />
+                  <JFXButton fx:id="btnImportar" focusTraversable="false" onAction="#onBtnImportar" styleClass="background-White1" text="Importar" />
                   <JFXButton fx:id="btnPostarAgora" focusTraversable="false" onAction="#onBtnPostarAgora" styleClass="background-White1" text="Postar agora" />
                   <JFXButton fx:id="btnExecutar" accessibleText="INICIAR" focusTraversable="false" onAction="#onBtnExecutar" styleClass="background-White1" text="Iniciar" />
                   <JFXButton fx:id="btnConfiguracao" accessibleText="INICIAR" focusTraversable="false" onAction="#onBtnConfiguracao" styleClass="background-White1" text="Configuração" />
@@ -28,7 +29,7 @@
       </AnchorPane>
     <AnchorPane AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
          <children>
-            <JFXTextArea fx:id="txtAreaLog" focusColor="#71afe5" labelFloat="true" promptText="Log" unFocusColor="#106ebe" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <JFXTextArea fx:id="txtAreaLog" focusColor="#71afe5" labelFloat="true" promptText="Log" unFocusColor="#106ebe" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0">
                <styleClass>
                   <String fx:value="background-Blue3" />
                   <String fx:value="texto-stilo" />

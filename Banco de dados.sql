@@ -16,26 +16,6 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`twitter_bot` /*!40100 DEFAULT CHARACTER
 
 USE `twitter_bot`;
 
-/*Table structure for table `anime` */
-
-DROP TABLE IF EXISTS `anime`;
-
-CREATE TABLE `anime` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Descricao` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Frase` longtext COLLATE utf8mb4_unicode_ci,
-  `Ingles` longtext COLLATE utf8mb4_unicode_ci,
-  `Traducao` longtext COLLATE utf8mb4_unicode_ci,
-  `Anime` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Imagem` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Tag` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Postado` int(11) DEFAULT '0',
-  `Ativo` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-/*Data for the table `anime` */
-
 /*Table structure for table `configuracao` */
 
 DROP TABLE IF EXISTS `configuracao`;
@@ -52,27 +32,7 @@ CREATE TABLE `configuracao` (
 /*Data for the table `configuracao` */
 
 insert  into `configuracao`(`id`,`tipo`,`PostDiario`,`PostTotal`,`UltimoPost`) values 
-(1,'TWITTER',10,15,'2020-12-31 18:35:52');
-
-/*Table structure for table `musica` */
-
-DROP TABLE IF EXISTS `musica`;
-
-CREATE TABLE `musica` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Descricao` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Frase` longtext COLLATE utf8mb4_unicode_ci,
-  `Traducao` longtext COLLATE utf8mb4_unicode_ci,
-  `Musica` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Cantor` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Imagem` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Tag` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Postado` int(11) DEFAULT '0',
-  `Ativo` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-/*Data for the table `musica` */
+(1,'TWITTER',24,29,'2020-12-31 18:51:18');
 
 /*Table structure for table `vocabulario` */
 
@@ -128,7 +88,7 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (31,'歩く','Andar, caminhar.','歩いてすぐですよ。','É uma caminhada curta.','',5,5,'',0,1),
 (32,'歩く','Andar, caminhar.','この辺を歩くなら銃を持って歩け。','Você precisa carregar uma arma nesta área.','',5,5,'',1,1),
 (33,'いくつ','Quantos? Quantos anos?','いくら','Quanto custa?','',5,5,'',0,1),
-(34,'池','Lagoa, tanques, reservatório.','池の直径はどのくらいですか？','Qual o diâmetro do lago?','',5,5,'',0,1),
+(34,'池','Lagoa, tanques, reservatório.','池の直径はどのくらいですか？','Qual o diâmetro do lago?','',5,5,'',1,1),
 (35,'池','Lagoa, tanques, reservatório.','池には魚がたくさんいる。','Há muitos peixes na lagoa.','',5,5,'',1,1),
 (36,'医者','Médico, doutor.','私は医者です。','Eu sou um médico.','',5,5,'',0,1),
 (37,'医者','Médico, doutor.','彼女は医者になるでしょう。','Ela vai se tornar médica.','',5,5,'',0,1),
@@ -149,17 +109,17 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (52,'妹','Irmã mais nova.','私の妹はよく泣く。','Minha irmã chora frequentemente.','',5,5,'',0,1),
 (53,'嫌','Desagradável, horrivel.','僕が「嫌だ」と言ったらどうする。','E se eu disser \"não\"?','',5,5,'',0,1),
 (54,'嫌','Desagradável, horrivel.','私は田舎に住むのは嫌だ','Não gosto de viver no campo.','',5,5,'',0,1),
-(55,'入口','Portão, entrada.','ここは入口ではありません。','Aqui não é a entrada.','',5,5,'',0,1),
+(55,'入口','Portão, entrada.','ここは入口ではありません。','Aqui não é a entrada.','',5,5,'',1,1),
 (56,'居る / いる','1) Ser, ter (Usado para pessoas e animais)2) Existir, permanecer.','私しか居ないのか？','Sou a única pessoa aqui?','',5,5,'',0,1),
 (57,'居る / いる','1) Ser, ter (Usado para pessoas e animais)2) Existir, permanecer.','幽霊は本当にいるのだろうか','Fantasmas existem de verdade?','',5,5,'',0,1),
 (58,'要る','Necessitar, requerer, precisar.','地図が要ります。','Preciso de um mapa.','',5,5,'',1,1),
 (59,'要る','Necessitar, requerer, precisar.','説明は要りません。','Eu não preciso de uma explicação.','',5,5,'',0,1),
-(60,'後ろ','Reverso, parte traseira, costas.','彼の後ろにいる。','Está atrás dele.','',5,5,'',0,1),
+(60,'後ろ','Reverso, parte traseira, costas.','彼の後ろにいる。','Está atrás dele.','',5,5,'',1,1),
 (61,'後ろ','Reverso, parte traseira, costas.','彼はドアの後ろに立っていました。','Estava parado atrás da porta.','',5,5,'',0,1),
 (62,'薄い','Dispeso, rala, aquoso, ténue.','コーヒーは薄いのが好きです','Gosto de café fraco.','',5,5,'',0,1),
 (63,'薄い','Dispeso, rala, aquoso, ténue.','氷は非常に薄いので君の体重を支えきれないだろう。','O gelo é tão fino que não aguentaria seu peso.','支え Sustentar, aguentar',5,5,'Verificar',0,1),
 (64,'歌う','Canção, cantar.','その歌はどんな歌時ですか','Como é a letra dessa canção?','',5,5,'',0,1),
-(65,'歌う','Canção, cantar.','彼が歌を歌った。','Ele cantou uma canção.','',5,5,'',0,1),
+(65,'歌う','Canção, cantar.','彼が歌を歌った。','Ele cantou uma canção.','',5,5,'',1,1),
 (66,'生まれる','Nascer, provir.','ここが父の生まれたところです。','Este e o lugar onde o meu pai nasceu.','',5,5,'',0,1),
 (67,'生まれる','Nascer, provir.','私は京都で生まれた。','Eu nasci em quioto.','',5,5,'',0,1),
 (68,'海','Mar, oceano','その海は青い。','Esse mar é azul.','',5,5,'',0,1),
@@ -181,7 +141,7 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (84,'エレベーター','Elevador.','私たちはエレベーターでしたに降りた。','Descemos de elevador.','',5,5,'',0,1),
 (85,'鉛筆','Lápis, caneta.','これらは私の鉛筆です','São minhas canetas.','',5,5,'',0,1),
 (86,'鉛筆','Lápis, caneta.','鉛筆を落としましたよ。','Você derrubou o seu lápis.','',5,5,'',0,1),
-(87,'多い','Numeroso, um monte, muito.','ここには象が多い','Há muitos elefantes por aqui.','',5,5,'',0,1),
+(87,'多い','Numeroso, um monte, muito.','ここには象が多い','Há muitos elefantes por aqui.','',5,5,'',1,1),
 (88,'多い','Numeroso, um monte, muito.','インドは人口が多い。','A índia é populosa.','',5,5,'',0,1),
 (89,'大勢','Um grande número de pessoas.','そこには大勢の人がいた。','Há um gigantesco número de pessoas lá.','',5,5,'',0,1),
 (90,'大勢','Um grande número de pessoas.','コンサートには大勢の聴衆がいた。','Havia uma grande audiência no concerto.','聴衆 Audiencia.',5,5,'Verificar',0,1),
@@ -192,11 +152,11 @@ insert  into `vocabulario`(`id`,`Vocabulario`,`Significado`,`Frase`,`Traducao`,`
 (95,'起きる','Originar-se, levantar-se, suceder, ocorrer.','何が起きたのか知しりません。','Não sei o que aconteceu.','',5,5,'',0,1),
 (96,'置く','Botar, colocar.','ここに置いていいですか','Posso colocar aqui?','',5,5,'',1,1),
 (97,'置く','Botar, colocar.','彼は銃を下に置いた。','Ele abaixou a arma.','',5,5,'',0,1),
-(98,'おくさん','Esposa.','おくさんがカンカンだぞ。','Sua esposa está brava com você.','',5,5,'',0,1),
+(98,'おくさん','Esposa.','おくさんがカンカンだぞ。','Sua esposa está brava com você.','',5,5,'',1,1),
 (99,'おくさん','Esposa.','奥さんによろしく伝えて下さい。','Porfavor, dê um alô à sua mulher.','',5,5,'',0,1),
 (100,'お酒','Bebida alcooólicas, saquê.','彼は酒によっています。','Ele esta bêbado.','',5,5,'',0,1),
 (101,'お酒','Bebida alcooólicas, saquê.','私はさけもたばこもやらない。','Eu não bebo nem fumo.','',5,5,'',0,1),
-(102,'お皿','Prato.','マイケルは皿を割ってしまった。','Michael quebrou os pratos.','',5,5,'',0,1),
+(102,'お皿','Prato.','マイケルは皿を割ってしまった。','Michael quebrou os pratos.','',5,5,'',1,1),
 (103,'お皿','Prato.','その皿は、プラスチックで出来ている。','O prato é feito de plástico.','',5,5,'',0,1),
 (104,'伯父 / 叔父','Tio, avô.','この家は叔父のものだ。','Esta casa pertence ao meu tio.','',5,5,'',0,1),
 (105,'伯父 / 叔父','Tio, avô.','叔父から砂時計をもらった。','Meu tio me deu de presente uma ampulheta.','',5,5,'',0,1),
